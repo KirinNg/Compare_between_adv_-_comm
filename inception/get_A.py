@@ -1,6 +1,8 @@
 import PIL
 import numpy as np
 import tensorflow as tf
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 img_path = "cat.jpg"
 img_class = 281
@@ -13,11 +15,11 @@ img = img.resize((new_w, new_h)).crop((0, 0, 299, 299))
 img = (np.asarray(img) / 255.0).astype(np.float32)
 
 W_from_Inception000 = np.load("val_000.npy")
-W_from_Inception000_1 = W_from_Inception000[:, :, :, 0]
-W_from_Inception000_1 = W_from_Inception000_1[:, :, :, np.newaxis]
+# W_from_Inception000_1 = W_from_Inception000[:, :, :, 0]
+# W_from_Inception000_1 = W_from_Inception000_1[:, :, :, np.newaxis]
 
 xs = tf.placeholder(tf.float32, [1, 299, 299, 3])
-W_conv1 = tf.Variable(W_from_Inception000_1)
+W_conv1 = tf.Variable(W_from_Inception000)
 conv_1 = tf.nn.conv2d(xs, W_conv1, strides=[1, 1, 1, 1], padding='SAME')
 Rule_1 = tf.nn.relu(conv_1)
 pooling_1 = tf.nn.max_pool(Rule_1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
