@@ -16,7 +16,8 @@ conv_1 = tf.nn.conv2d(xs, W_from_Inception000, strides=[1, 1, 1, 1], padding='SA
 Rule_1 = tf.nn.relu(conv_1)
 pooling_1 = tf.nn.max_pool(Rule_1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
-Loss = tf.reduce_sum(tf.square(tf.subtract(conv_1, A_r)) * tf.sign(R))
+# Loss = tf.reduce_sum(tf.square(tf.subtract(conv_1, A_r)) * tf.sign(R))
+Loss = tf.reduce_sum(tf.square(tf.subtract(conv_1, A_r)))
 trainer = tf.train.GradientDescentOptimizer(0.01).minimize(Loss)
 
 sess = tf.Session()
